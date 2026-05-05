@@ -2,7 +2,6 @@
 <html lang="ko">
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="refresh" content="0; url=https://script.google.com/macros/s/AKfycbwnoPDD8JiutVncyo3zXAyse9hWZnqUHV_C5MLeLZXPR0j4kN28OWadlVktkIGR-aQUsw/exec">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="#E8526B">
 
@@ -27,12 +26,17 @@
     <meta property="og:url" content="https://inyoung0215.github.io/dooguen/">
 
     <style>
+      *, *::before, *::after { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
       html, body {
-        margin: 0; padding: 0; min-height: 100vh;
+        margin: 0; padding: 0;
+        min-height: 100vh; min-height: 100dvh;
         background: #FAFAFA; color: #1A1416;
         font-family: -apple-system, BlinkMacSystemFont, system-ui, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      }
+      .wrap {
+        min-height: 100vh; min-height: 100dvh;
         display: flex; flex-direction: column; align-items: center; justify-content: center;
-        gap: 16px;
+        gap: 24px; padding: 24px;
       }
       .logo {
         width: 84px; height: 84px; border-radius: 24px;
@@ -42,33 +46,63 @@
         color: #E8526B;
       }
       .logo svg { width: 48px; height: auto; }
-      .title { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; }
-      .sub { font-size: 14px; color: #6B6266; }
-      .fallback {
-        margin-top: 8px;
-        background: #E8526B; color: #fff; text-decoration: none;
-        padding: 12px 20px; border-radius: 12px;
-        font-size: 15px; font-weight: 600; letter-spacing: -0.2px;
+      .title { font-size: 28px; font-weight: 700; letter-spacing: -0.6px; line-height: 36px; text-align: center; }
+      .sub { font-size: 15px; color: #6B6266; text-align: center; line-height: 22px; max-width: 280px; }
+      .footer { display: flex; flex-direction: column; gap: 12px; align-items: center; padding-bottom: 32px; }
+      .open {
+        background: #E8526B; color: #fff; text-decoration: none; border: 0;
+        height: 56px; padding: 0 32px; border-radius: 14px;
+        font-size: 17px; font-weight: 600; letter-spacing: -0.2px;
+        display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+        cursor: pointer; transition: transform 0.08s;
+        font-family: inherit;
       }
+      .open:active { transform: scale(0.98); }
+      .hint {
+        background: #FFFAFB; border: 1px solid #FFE4E7;
+        border-radius: 12px; padding: 14px 16px; max-width: 320px;
+        font-size: 13px; color: #6B6266; line-height: 18px;
+        text-align: center;
+      }
+      .hint b { color: #1A1416; }
     </style>
   </head>
   <body>
-    <div class="logo">
-      <svg viewBox="0 0 40 40" fill="none">
-        <path d="M4 22 H10 L13 14 L17 28 L20 10 L23 30 L26 18 L29 22 H36"
-              stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-      </svg>
+    <div class="wrap">
+      <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px">
+        <div class="logo">
+          <svg viewBox="0 0 40 40" fill="none">
+            <path d="M4 22 H10 L13 14 L17 28 L20 10 L23 30 L26 18 L29 22 H36"
+                  stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+        </div>
+        <div class="title">두근</div>
+        <div class="sub">친한 친구가 직접 추천하는<br>비공개 소개팅</div>
+      </div>
+      <div class="footer">
+        <button class="open" id="btn-open">두근 열기</button>
+        <div class="hint" id="hint">
+          <b>홈 화면에 추가하면 아이콘이 생겨요</b><br>
+          하단 공유 버튼 ↑ → "홈 화면에 추가"
+        </div>
+      </div>
     </div>
-    <div class="title">두근</div>
-    <div class="sub">앱을 여는 중…</div>
-    <a class="fallback" id="manual-link" href="https://script.google.com/macros/s/AKfycbwnoPDD8JiutVncyo3zXAyse9hWZnqUHV_C5MLeLZXPR0j4kN28OWadlVktkIGR-aQUsw/exec" hidden>지금 열기</a>
     <script>
-      // Immediate JS redirect (faster than meta refresh and replaces history)
       var APP_URL = 'https://script.google.com/macros/s/AKfycbwnoPDD8JiutVncyo3zXAyse9hWZnqUHV_C5MLeLZXPR0j4kN28OWadlVktkIGR-aQUsw/exec';
-      try { window.location.replace(APP_URL); }
-      catch (e) { document.getElementById('manual-link').hidden = false; }
-      // If still here after 2s, show manual link
-      setTimeout(function () { document.getElementById('manual-link').hidden = false; }, 2000);
+
+      // Standalone (홈 화면 아이콘에서 실행) → 즉시 앱으로 보냄
+      var isStandalone =
+        (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
+        window.navigator.standalone === true;
+
+      if (isStandalone) {
+        window.location.replace(APP_URL);
+      } else {
+        // 브라우저 탭으로 들어옴 → 사용자가 "홈 화면에 추가" 누를 시간 확보
+        document.getElementById('btn-open').addEventListener('click', function () {
+          window.location.href = APP_URL;
+        });
+      }
     </script>
   </body>
 </html>
