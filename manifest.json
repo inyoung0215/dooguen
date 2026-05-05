@@ -1,0 +1,13 @@
+{
+  "name": "두근",
+  "short_name": "두근",
+  "description": "친한 친구가 직접 추천하는 비공개 소개팅",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#FAFAFA",
+  "theme_color": "#E8526B",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
